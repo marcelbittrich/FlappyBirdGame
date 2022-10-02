@@ -8,8 +8,13 @@ public class Player : MonoBehaviour
 
     public Sprite[] sprites;
     private int spriteIndex;
+    private int flapAnimationRun = 0;
+    public int maxFlapAnimations = 1;
 
     private Vector3 direction;
+    private Vector3 rotationVector;
+    private float rotatingStrength = 5.0f;
+    private float tiltSmoothing = 5.0f;
 
     public float gravity = -9.8f;
     public float strength = 5.0f;
@@ -26,9 +31,11 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+
         if (Input.GetKeyDown(KeyCode.Space)||Input.GetMouseButtonDown(0)) 
         { 
             direction = Vector3.up * strength;
+            flapAnimationRun = 0;
         }
 
         if (Input.touchCount > 0) 
@@ -44,18 +51,46 @@ public class Player : MonoBehaviour
         direction.y += gravity * Time.deltaTime;
         transform.position += direction * Time.deltaTime;
 
-        
+        rotationVector.z = direction.y * rotatingStrength;
+        Quaternion rotation = Quaternion.Euler(rotationVector);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * tiltSmoothing);
+
+
+
     }
 
     private void AnimateSprite() 
     {
-        spriteIndex++;
-        if (spriteIndex >= sprites.Length) 
-        { 
-            spriteIndex = 0;
-        }
+        if (flapAnimationRun < maxFlapAnimations)
+        {
+            spriteIndex++;
 
-        spriteRenderer.sprite = sprites[spriteIndex];
+            if (spriteIndex == sprites.Length)
+            {
+                flapAnimationRun++;
+            }
+
+            if (spriteIndex >= sprites.Length)
+            {
+                spriteIndex = 0;
+            }
+
+            spriteRenderer.sprite = sprites[spriteIndex];
+
+        }
+        else if (flapAnimationRun >= maxFlapAnimations && spriteIndex != 0)
+        {
+            spriteIndex++;
+            if (spriteIndex >= sprites.Length)
+            {
+                spriteIndex = 0;
+            }
+            spriteRenderer.sprite = sprites[spriteIndex];
+        }
+        else
+        {
+            spriteRenderer.sprite = sprites[0];
+        }
     }
 
 
