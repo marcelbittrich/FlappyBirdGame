@@ -1,3 +1,3 @@
 # FlappyBirdGame
 
-:joystick::hatched_chick: A Flappy Bird game made in Unity
+:joystick::hatched_chick: A Flappy Bird game tutorial made in Unity
