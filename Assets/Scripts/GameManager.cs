@@ -10,12 +10,13 @@ public class GameManager : MonoBehaviour
     public TMP_Text scoreText;
     public GameObject playButton;
     public GameObject gameOver;
+    public GameObject prideToggle;
     private int score;
 
     private void Awake()
     {
         Application.targetFrameRate = 60;
-
+        gameOver.SetActive(false);
         Pause();
     }
 
@@ -26,6 +27,7 @@ public class GameManager : MonoBehaviour
 
         playButton.SetActive(false);
         gameOver.SetActive(false);
+        prideToggle.SetActive(false);
 
         Time.timeScale = 1;
         player.enabled = true;
@@ -50,7 +52,7 @@ public class GameManager : MonoBehaviour
     {
         gameOver.SetActive(true);
         playButton.SetActive(true);
-
+        prideToggle.SetActive(true);
         Pause();
     }
 

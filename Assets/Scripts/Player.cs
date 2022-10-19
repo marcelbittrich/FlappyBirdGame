@@ -1,12 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
     private SpriteRenderer spriteRenderer;
+    private TrailRenderer trailRenderer;
 
-    public Sprite[] sprites;
+    public float trailSpeed = 1;
+    private int trailPoints;
+
+    public Sprite[] sprite_set1;
+    public Sprite[] sprite_set2;
+    private Sprite[] sprites;
+    private bool isProud;
+    public Toggle prideToggle;
+
     private int spriteIndex;
     private int flapAnimationRun = 0;
     public int maxFlapAnimations = 1;
@@ -22,6 +32,7 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        trailRenderer = GetComponent<TrailRenderer>();
     }
 
     private void Start()
@@ -35,11 +46,21 @@ public class Player : MonoBehaviour
         transform.rotation = Quaternion.identity;
         direction = Vector3.zero;
         rotationVector = Vector3.zero;
+        trailRenderer.Clear();
+        isProud = prideToggle.isOn;
+
+        if (isProud)
+        {
+            sprites = sprite_set2;
+        }
+        else
+        {
+            sprites = sprite_set1;
+        }
     }
 
     private void Update()
     {
-
         if (Input.GetKeyDown(KeyCode.Space)||Input.GetMouseButtonDown(0)) 
         { 
             direction = Vector3.up * strength;
@@ -63,7 +84,13 @@ public class Player : MonoBehaviour
         Quaternion rotation = Quaternion.Euler(rotationVector);
         transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * tiltSmoothing);
 
-
+        trailPoints = trailRenderer.positionCount;
+        for (int i = 0; i < trailPoints; i++)
+        {
+            Vector3 TrailPosition = trailRenderer.GetPosition(i);
+            TrailPosition += Vector3.left * trailSpeed * Time.deltaTime;
+            trailRenderer.SetPosition(i, TrailPosition);
+        }
 
     }
 
