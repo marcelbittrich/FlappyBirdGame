@@ -2,7 +2,7 @@
 
 ![FlappyBird1](https://github.com/marcelbittrich/FlappyBirdGame/assets/113523293/485ccebd-89ff-4cb5-b05b-4589df60c656)
 
-🕹️🐥 A Flappy Bird game tutorial made in Unity
+🕹️🐥 A Flappy Bird game tutorial made in Unity. [Play Here](https://play.unity.com/mg/other/webgl-builds-326135)
 
 ## Description
 
